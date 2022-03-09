@@ -1,1 +1,1 @@
-[Al](images/Al.png)
+[Al](Al.png)
