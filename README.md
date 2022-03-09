@@ -2,5 +2,5 @@
 
 (to come very soon)
 
-Here are a some of the corrections of some exercices of the McXtrace March 2022 School.
+Here are corrections of some of the exercices of the McXtrace March 2022 School.
 Disclaimer: The corrections are not guaranteed to be correct.
