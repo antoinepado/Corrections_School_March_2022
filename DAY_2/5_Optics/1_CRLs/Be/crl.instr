@@ -1,0 +1,121 @@
+/*******************************************************************************
+* Instrument: <instrument name>
+*
+* %I
+* Written by: <your name (email)>
+* Date: <current date>
+* Origin: <your institution>
+* Version: <instrument version>
+* %INSTRUMENT_SITE: Templates
+*
+* <instrument short description>
+*
+* %DCOMPONENT source_gaussian = Source_gaussian(
+    sig_x=48.2e-6, 
+    sig_y=9.5e-6, 
+    sigPr_x=100e-6, 
+    sigPr_y=4.3e-6, 
+    dist=31.5, 
+    gauss=1, 
+    E0=23.32, 
+    dE=1)
+AT (0, 0, 0) RELATIVE Origin
+* <instrument description>
+*
+* Example: <parameters=values>
+*
+* %P
+* <parameter1>: [<unit>] <parameter1 description>
+* ...
+* 
+* %L
+* <reference/HTML link>
+*
+* %E
+*******************************************************************************/
+DEFINE INSTRUMENT template_body_simple(L=1)
+
+DECLARE
+%{
+    double fz;
+%}
+
+INITIALIZE
+%{
+%}
+
+TRACE
+
+COMPONENT origin = Progress_bar()
+AT (0, 0, 0) RELATIVE ABSOLUTE
+
+// insert components here (e.g. Insert -> Source -> ...)
+COMPONENT source_gaussian = Source_gaussian(
+    sig_x=48.2e-6, 
+    sig_y=9.5e-6, 
+    sigPr_x=100e-6, 
+    sigPr_y=4.3e-6, 
+    dist=31.5, 
+    focus_xw=0.001,
+    focus_yh=0.001,
+    gauss=1, 
+    E0=23.32, 
+    dE=1)
+AT (0, 0, 0) RELATIVE origin
+
+/*COMPONENT source_div = Source_div(
+    xwidth=48.2e-6, 
+    yheight=9.5e-6, 
+    E0=23.32, 
+    dE=1, 
+    gauss=1)
+AT (0, 0, 0) RELATIVE PREVIOUS*/
+
+COMPONENT lens_parab = Lens_parab(
+    material_datafile = "Be.txt",
+    r=200e-6, 
+    r_ap=0.5e-3, 
+    d=50e-6, 
+    N=16)
+AT (0, 0, 31.5) RELATIVE PREVIOUS
+
+
+/*COMPONENT lens_parab = Lens_parab(
+    material_datafile = "Al.txt",
+    r=200e-6, 
+    r_ap=0.5e-3, 
+    d=20e-6, 
+    N=10)
+AT (0, 0, 31.5) RELATIVE PREVIOUS*/
+
+
+/*COMPONENT slit = Slit(
+    xwidth=1e-7, 
+    yheight=1e-3)
+AT (0, 0, L) RELATIVE PREVIOUS*/
+
+COMPONENT slit = Slit(
+    radius=0.0001)
+AT (0, 0, L) RELATIVE PREVIOUS
+
+
+COMPONENT psd_monitor = PSD_monitor(
+    filename="psd.dat", 
+    xwidth=0.001, 
+    yheight=0.001)
+AT (0, 0, 0.001) RELATIVE PREVIOUS
+//AT (0, 0, 0.1) RELATIVE PREVIOUS
+
+COMPONENT e_monitor = E_monitor(
+    filename="energy.dat", 
+    xwidth=0.001, 
+    yheight=0.001, 
+    Emin=23.32-1, 
+    Emax=23.32+1)
+AT (0, 0, 0) RELATIVE PREVIOUS
+
+FINALLY
+%{
+%}
+
+END

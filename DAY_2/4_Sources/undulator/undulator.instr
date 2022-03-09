@@ -1,0 +1,79 @@
+/*******************************************************************************
+* Instrument: <instrument name>
+*
+* %I
+* Written by: <your name (email)>
+* Date: <current date>
+* Origin: <your institution>
+* Version: <instrument version>
+* %INSTRUMENT_SITE: Templates
+*
+* <instrument short description>
+*
+* %D
+* <instrument description>
+*
+* Example: <parameters=values>
+*
+* %P
+* <parameter1>: [<unit>] <parameter1 description>
+* ...
+* 
+* %L
+* <reference/HTML link>
+*
+* %E
+*******************************************************************************/
+DEFINE INSTRUMENT template_body_simple(Par1=1)
+
+DECLARE
+%{
+%}
+
+INITIALIZE
+%{
+%}
+
+TRACE
+
+COMPONENT origin = Progress_bar()
+AT (0, 0, 0) RELATIVE ABSOLUTE
+
+// insert components here (e.g. Insert -> Source -> ...)
+COMPONENT undulator = Undulator(
+    E0=13, 
+    dE=1, 
+    Ee=8, 
+    dEe=0.001, 
+    Ie=0.1, 
+    K=1.03118, 
+    Nper=140, 
+    lu=3.2e-2, 
+    sigey=6.17e-6, 
+    sigex=0.29979e-3, 
+    sigepx=0.01226e-3, 
+    sigepy=1.1e-6, 
+    focus_xw=1e-4, 
+    focus_yh=1e-4, 
+    dist=20, 
+    E1st=12.400)
+AT (0, 0, 0) RELATIVE PREVIOUS
+
+
+COMPONENT psd_monitor = PSD_monitor(
+    filename="psd_monitor.dat", 
+    xwidth=20e-4, 
+    yheight=5e-4)
+AT (0, 0, 20) RELATIVE PREVIOUS
+
+COMPONENT e_monitor = E_monitor(
+    filename="e_monitor.dat",   
+    Emin=11, 
+    Emax=15)
+AT (0, 0, 0) RELATIVE PREVIOUS
+
+FINALLY
+%{
+%}
+
+END

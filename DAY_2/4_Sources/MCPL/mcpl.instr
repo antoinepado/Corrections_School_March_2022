@@ -1,0 +1,66 @@
+/*******************************************************************************
+* Instrument: <instrument name>
+*
+* %I
+* Written by: <your name (email)>
+* Date: <current date>
+* Origin: <your institution>
+* Version: <instrument version>
+* %INSTRUMENT_SITE: Templates
+*
+* <instrument short description>
+*
+* %D
+* <instrument description>
+*
+* Example: <parameters=values>
+*
+* %P
+* <parameter1>: [<unit>] <parameter1 description>
+* ...
+* 
+* %L
+* <reference/HTML link>
+*
+* %E
+*******************************************************************************/
+DEFINE INSTRUMENT template_body_simple(Par1=1)
+
+DECLARE
+%{
+%}
+
+INITIALIZE
+%{
+%}
+
+TRACE
+
+COMPONENT origin = Progress_bar()
+AT (0, 0, 0) RELATIVE ABSOLUTE
+
+// insert components here (e.g. Insert -> Source -> ...)
+COMPONENT mcpl_input = MCPL_input(
+    filename="sp8stdUl.mcpl")
+AT (0, 0, 0) RELATIVE PREVIOUS
+
+COMPONENT e_monitor = E_monitor(
+    filename="energy.dat", 
+    xwidth=0.5, 
+    yheight=0.5, 
+    Emin=1, 
+    Emax=70,
+    nE=1000, 
+    restore_xray=1)
+AT (0, 0, 2) RELATIVE PREVIOUS
+
+COMPONENT psd_monitor = PSD_monitor(
+    filename="psd.dat", 
+    xwidth=0.00005, 
+    yheight=0.00005)
+AT (0, 0, 0) RELATIVE PREVIOUS
+FINALLY
+%{
+%}
+
+END
